@@ -1,0 +1,6 @@
+flask/env
+flask.env
+__pycache__
+flask/.vscode/
+.pytest_cache
+flask/webapp/__pycache__

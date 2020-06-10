@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+
+  flask:
+    build: ./flask
+    env_file: 
+      - flask.env
+    container_name: flask
+    restart: always
+    volumes:
+      - flask-resources:/app/webapp/static/resources
+      - reqlog:/tmp/reqlog
+      - errlog:/tmp/errlog
+    expose:
+      - 8080
+    depends_on:
+      - elasticsearch
+
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changeit
+      POSTGRES_USER: admin
+      POSTGRES_DB: my_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 127.0.0.1:8081:8080
+
+
+volumes:
+  postgres-data:
+    driver: local
+  reqlog:
+    driver: local
+  errlog:
+    driver: local
+  flask-resources:
+    driver: local
