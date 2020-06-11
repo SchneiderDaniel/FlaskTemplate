@@ -14,20 +14,18 @@ services:
       - errlog:/tmp/errlog
     expose:
       - 8080
-    depends_on:
-      - elasticsearch
 
   db:
     image: postgres
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: changeit
-      POSTGRES_USER: admin
-      POSTGRES_DB: my_db
+      POSTGRES_PASSWORD: asdasdasd
+      POSTGRES_USER: daniel2
+      POSTGRES_DB: my_db2
     volumes:
       - postgres-data:/var/lib/postgresql/data
-
+    
     
   adminer:
     image: adminer
@@ -35,6 +33,16 @@ services:
     restart: always
     ports:
       - 127.0.0.1:8081:8080
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - nginx-errors:/var/log/nginx
 
 
 volumes:
@@ -45,4 +53,6 @@ volumes:
   errlog:
     driver: local
   flask-resources:
+    driver: local
+  nginx-errors:
     driver: local
